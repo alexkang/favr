@@ -127,6 +127,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             switch (position) {
                 case 0:
                     return new ContactsFragment();
+                case 1:
+                    return new FeedFragment();
+                case 2:
+                    return new ProfileFragment();
                 default:
                     return new PlaceholderFragment();
             }

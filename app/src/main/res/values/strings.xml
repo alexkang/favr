@@ -3,8 +3,8 @@
 
     <string name="app_name">favr</string>
     <string name="title_section1">Contacts</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Feed</string>
+    <string name="title_section3">Profile</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
