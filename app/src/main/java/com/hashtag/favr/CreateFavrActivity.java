@@ -40,7 +40,7 @@ public class CreateFavrActivity extends Activity {
         mBody = (TextView) findViewById(R.id.message_box);
 
         mSenderPic = (ImageView) findViewById(R.id.sender_pic);
-        mRecepientPic = (ImageView) findViewById(R.id.receipient_pic);
+        mRecepientPic = (ImageView) findViewById(R.id.recepient_pic);
         mSenderName = (TextView) findViewById(R.id.sender_name);
         mRecepientName = (TextView) findViewById(R.id.receipient_name);
 
@@ -49,6 +49,14 @@ public class CreateFavrActivity extends Activity {
 
         mSenderName.setText(ContactsController.getInstance(this).getName());
         mRecepientName.setText(mUser.getName());
+
+        String senderPicUri = ContactsController.getInstance(this).getProfilePic();
+        if (senderPicUri != null) {
+            try {
+                Uri senderUri = Uri.parse(senderPicUri);
+                mSenderPic.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), senderUri));
+            } catch (Exception e) {}
+        }
 
         if (mUser.getProfilePicThumbnail() != null) {
             try {
@@ -62,13 +70,28 @@ public class CreateFavrActivity extends Activity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean okay = true;
+
                 String body = mBody.getText().toString();
-                int delay = Integer.parseInt(mDelay.getText().toString());
+                if (body == null || body.length() == 0) {
+                    okay = false;
+                }
 
-                PhoneController.getInstance(getBaseContext()).sendDelayedSms(mUser.getNumber(), body, delay);
+                try {
+                    Integer.parseInt(mDelay.getText().toString());
+                } catch (Exception e) {
+                    okay = false;
+                }
 
-                Toast.makeText(getBaseContext(), "favr created!", Toast.LENGTH_SHORT).show();
-                finish();
+                if (okay) {
+                    int delay = Integer.parseInt(mDelay.getText().toString());
+
+                    PhoneController.getInstance(getBaseContext()).sendDelayedSms(mUser.getNumber(), body, delay);
+                    Toast.makeText(getBaseContext(), "favr created!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(getBaseContext(), "Please fill out all fields correctly.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

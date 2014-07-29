@@ -15,10 +15,15 @@ import java.util.ArrayList;
  */
 public class ContactsController {
 
-    private static ContactsController instance = null;
-    final String[] SELF_PROJECTION = new String[] { ContactsContract.CommonDataKinds.Phone._ID,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, };
+    private static final String[] SELF_PROJECTION = new String[] {
+            ContactsContract.CommonDataKinds.Phone._ID,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.Profile.PHOTO_URI
+    };
 
+    private static ContactsController instance = null;
+
+    private Cursor mCursor = null;
     private Context mContext;
 
     public static ContactsController getInstance(Context context) {
@@ -31,6 +36,11 @@ public class ContactsController {
 
     private ContactsController(Context context) {
         mContext = context;
+        ContentResolver contentResolver = context.getContentResolver();
+        mCursor = contentResolver.query(
+                ContactsContract.Profile.CONTENT_URI,
+                SELF_PROJECTION,
+                null, null, null);
     }
 
     public ArrayList<User> getContacts() {
@@ -63,14 +73,13 @@ public class ContactsController {
     }
 
     public String getName() {
-        ContentResolver contentResolver = mContext.getContentResolver();
-        Cursor cursor = contentResolver.query(
-                ContactsContract.Profile.CONTENT_URI,
-                SELF_PROJECTION,
-                null, null, null);
+        mCursor.moveToFirst();
+        return mCursor.getString(1);
+    }
 
-        cursor.moveToFirst();
-        return cursor.getString(1);
+    public String getProfilePic() {
+        mCursor.moveToFirst();
+        return mCursor.getString(2);
     }
 
 }

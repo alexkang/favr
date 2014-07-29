@@ -46,7 +46,7 @@ public class PhoneController {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, delay);
+        cal.add(Calendar.MINUTE, delay);
         alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 

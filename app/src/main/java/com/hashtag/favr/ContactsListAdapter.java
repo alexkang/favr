@@ -43,6 +43,8 @@ public class ContactsListAdapter extends ArrayAdapter<User> {
             try {
                 picView.setImageBitmap(MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), picThumbUri));
             } catch (Exception e) {}
+        } else {
+            picView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_user));
         }
 
         nameView.setText(user.getName());
