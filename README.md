@@ -1,5 +1,5 @@
-favr
-====
+[SUMMER 2014] favr
+==================
 
 Remind your friends to do you a favor! This app sends timed sms messages from contacts pulled on your phone.
 
